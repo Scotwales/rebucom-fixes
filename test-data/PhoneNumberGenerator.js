@@ -1,81 +1,25 @@
-/**
- * Phone Number Generator for Test Data
- * Generates valid UK phone numbers for testing
- */
+const { faker } = require('@faker-js/faker');
 
 class PhoneNumberGenerator {
-  /**
-   * Generate a random UK mobile phone number
-   * Format: 07XXXXXXXXX (11 digits)
-   */
   static generateRandomPhoneNumber() {
-    // UK mobile numbers start with 07
+    // Generate UK mobile phone number: 07XXXXXXXXX
+    // Using faker with a template, then sanitizing to ensure only digits
+    const phoneNumber = faker.phone.number('07#########');
+    // Remove any non-digit characters that faker might add
+    const cleanNumber = phoneNumber.replace(/[^0-9]/g, '');
+
+    // Ensure it's exactly 11 digits starting with 07
+    if (cleanNumber.length >= 11 && cleanNumber.startsWith('07')) {
+      return cleanNumber.substring(0, 11);
+    }
+
+    // Fallback: generate manually if faker output is invalid
     const prefix = '07';
-
-    // Generate 9 random digits
     let number = '';
     for (let i = 0; i < 9; i++) {
       number += Math.floor(Math.random() * 10);
     }
-
     return prefix + number;
-  }
-
-  /**
-   * Generate a random landline number
-   * Format: 01/02 + 9 digits
-   */
-  static generateLandlineNumber() {
-    const prefixes = ['01', '02'];
-    const prefix = prefixes[Math.floor(Math.random() * prefixes.length)];
-
-    let number = '';
-    for (let i = 0; i < 9; i++) {
-      number += Math.floor(Math.random() * 10);
-    }
-
-    return prefix + number;
-  }
-
-  /**
-   * Generate an invalid phone number for negative testing
-   */
-  static generateInvalidPhoneNumber() {
-    const invalidNumbers = [
-      '070abc', // Contains letters
-      '12345', // Too short
-      '07', // Way too short
-      '999999999999999', // Too long
-      '00000000000', // All zeros
-      '+44 7700 900000', // Contains spaces and +
-      '07-700-900-000' // Contains hyphens
-    ];
-    return invalidNumbers[Math.floor(Math.random() * invalidNumbers.length)];
-  }
-
-  /**
-   * Generate a phone number with specific area code
-   */
-  static generateWithAreaCode(areaCode) {
-    let number = '';
-    const remainingDigits = 11 - areaCode.length;
-
-    for (let i = 0; i < remainingDigits; i++) {
-      number += Math.floor(Math.random() * 10);
-    }
-
-    return areaCode + number;
-  }
-
-  /**
-   * Validate UK phone number format
-   */
-  static isValidUKPhone(phone) {
-    // Remove spaces and hyphens
-    const cleaned = phone.replace(/[\s-]/g, '');
-
-    // Must be 11 digits starting with 0
-    return /^0[0-9]{10}$/.test(cleaned);
   }
 }
 

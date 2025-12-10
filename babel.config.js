@@ -6,6 +6,7 @@ module.exports = {
         targets: {
           node: 'current',
         },
+        modules: 'commonjs', // Ensure ES modules are converted to CommonJS
       },
     ],
   ],

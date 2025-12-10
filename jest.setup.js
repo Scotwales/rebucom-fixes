@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-require('dotenv').config();
-=======
 /**
  * Jest Setup File
  * Runs before all tests
@@ -19,4 +16,3 @@ if (!process.env.BASE_URL) {
 jest.setTimeout(30000);
 
 // Global test utilities can be added here if needed
->>>>>>> c4ed3dc406e36ff78676cef5bcbb66ae0a351d4c

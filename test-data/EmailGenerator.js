@@ -1,25 +1,3 @@
-<<<<<<< HEAD
-const { faker } = require('@faker-js/faker');
-
-class EmailGenerator {
-  static getRandomFirstName() {
-    return faker.person.firstName(); // Use person instead of name
-  }
-
-  static getRandomLastName() {
-    return faker.person.lastName(); // Use person instead of name
-  }
-
-  static getRandomEmail(firstName) {
-    const randomNumber = Math.floor(Math.random() * 99999) + 1;
-    const emailDomain = '@yopmail.com';
-    const cleanFirstName = firstName.toLowerCase().replace(/[^a-z]/g, '');
-    return `${cleanFirstName}${randomNumber}${emailDomain}`;
-  }
-}
-
-module.exports = EmailGenerator;
-=======
 /**
  * Email Generator for Test Data
  * Generates unique, disposable email addresses for testing
@@ -98,4 +76,3 @@ class EmailGenerator {
 }
 
 module.exports = EmailGenerator;
->>>>>>> c4ed3dc406e36ff78676cef5bcbb66ae0a351d4c

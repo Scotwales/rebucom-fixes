@@ -1,23 +1,3 @@
-<<<<<<< HEAD
-class PhoneNumberGenerator {
-  static PREFIXES = ['080', '081', '090', '070', '091'];
-
-  static generateRandomPhoneNumber() {
-    // Select a random prefix from the list
-    const prefix = this.PREFIXES[Math.floor(Math.random() * this.PREFIXES.length)];
-
-    // Generate the remaining 8 digits
-    let number = prefix;
-    for (let i = 0; i < 8; i++) {
-      number += Math.floor(Math.random() * 10); // Append digits 0–9
-    }
-
-    return number;
-  }
-}
-
-module.exports = PhoneNumberGenerator;
-=======
 /**
  * Phone Number Generator for Test Data
  * Generates valid UK phone numbers for testing
@@ -100,4 +80,3 @@ class PhoneNumberGenerator {
 }
 
 module.exports = PhoneNumberGenerator;
->>>>>>> c4ed3dc406e36ff78676cef5bcbb66ae0a351d4c

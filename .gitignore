@@ -1,8 +1,3 @@
-<<<<<<< HEAD
-node_modules/
-venv/
-inspectionProfiles/
-=======
 # Dependencies
 node_modules/
 package-lock.json
@@ -29,6 +24,7 @@ utilities/CustomerAuthData.json
 # IDE
 .idea/
 .vscode/
+inspectionProfiles/
 *.swp
 *.swo
 *~
@@ -37,6 +33,8 @@ utilities/CustomerAuthData.json
 .DS_Store
 Thumbs.db
 
+# Python virtual environments
+venv/
+
 # Test reports
 jest_html_reporters.html
->>>>>>> c4ed3dc406e36ff78676cef5bcbb66ae0a351d4c

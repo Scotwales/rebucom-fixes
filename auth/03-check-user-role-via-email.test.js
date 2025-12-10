@@ -1,63 +1,101 @@
-const request = require("supertest");
+/**
+ * User Role Check Tests
+ * Tests the role check endpoint with various scenarios
+ *
+ * Architecture:
+ * ✅ Uses constants for STATUS codes and ENDPOINTS
+ * ✅ Uses EmailGenerator for test data
+ * ✅ Uses getAuthData for valid user email
+ * ✅ No hardcoded values
+ * ✅ Test independence
+ */
+
+const request = require('supertest');
+const { STATUS, ENDPOINTS } = require('../test-data/constants');
+const EmailGenerator = require('../test-data/EmailGenerator');
+const getAuthData = require('../utilities/getAuthData');
+
 const baseUrl = process.env.BASE_URL;
-const getAuthData = require("../utilities/getAuthData.js");
 
 let authData;
-let email;
+let validUserEmail;
 
 beforeAll(async () => {
   authData = await getAuthData();
-  email = authData.email;
+  validUserEmail = authData.email;
 });
 
+describe('User Role Check API', () => {
+  describe('Negative Test Cases', () => {
+    test('should return 404 for non-existing user', async () => {
+      // Generate a random email that definitely doesn't exist
+      const nonExistentEmail = EmailGenerator.getRandomEmail('nonexistent');
 
+      const response = await request(baseUrl)
+        .post(ENDPOINTS.ROLES)
+        .send({
+          email: nonExistentEmail
+        });
 
-describe("Testcase for checking user role", () => {
-
-    test("Check role of a non-existing user", async () => {
-        const response = await request(baseUrl)
-            .post("auth/roles")
-            .send({
-                email: "nouser_does_not_exist@yopmail.com"
-            });
-
-        expect(response.status).toBe(404);
-        expect(response.body.message).toBe("User not found or does not exist");
+      expect(response.status).toBe(STATUS.NOT_FOUND);
+      expect(response.body.message).toBe('User not found or does not exist');
     });
 
-    test("Check role without entering user email", async () => {
-        const response = await request(baseUrl)
-            .post("auth/roles")
-            .send({
-                email: ""
-            });
+    test('should reject empty email', async () => {
+      const response = await request(baseUrl)
+        .post(ENDPOINTS.ROLES)
+        .send({
+          email: ''
+        });
 
-        expect(response.status).toBe(400);
-        expect(response.body.details[0].message)
-            .toBe("\"email\" is not allowed to be empty");
+      expect(response.status).toBe(STATUS.BAD_REQUEST);
+      expect(response.body.details[0].message).toBe('"email" is not allowed to be empty');
     });
 
-    test("Check role using a valid user email", async () => {
-        const response = await request(baseUrl)
-            .post("auth/roles")
-            .send({
-                email: email
-            });
+    test('should handle email with leading/trailing spaces', async () => {
+      const response = await request(baseUrl)
+        .post(ENDPOINTS.ROLES)
+        .send({
+          email: '   ' + validUserEmail + '   '
+        });
 
-        expect(response.status).toBe(200);
-        expect(response.body.message).toBe("User check successful");
-
+      // API should either trim and accept (200) or reject (400)
+      expect([STATUS.OK, STATUS.BAD_REQUEST]).toContain(response.status);
     });
 
-    test("Check role using email with spaces or invalid characters", async () => {
-        const response = await request(baseUrl)
-            .post("auth/roles")
-            .send({
-                email: "   " + email + "   "
-            });
+    test('should reject missing email field', async () => {
+      const response = await request(baseUrl)
+        .post(ENDPOINTS.ROLES)
+        .send({});
 
-        expect([200, 400]).toContain(response.status);
-
+      expect(response.status).toBe(STATUS.BAD_REQUEST);
+      expect(response.body.message).toBe('Error in request body');
     });
 
+    test('should reject invalid email format', async () => {
+      const response = await request(baseUrl)
+        .post(ENDPOINTS.ROLES)
+        .send({
+          email: 'not-a-valid-email'
+        });
+
+      expect(response.status).toBe(STATUS.BAD_REQUEST);
+      expect(response.body.details).toBeDefined();
+    });
+  });
+
+  describe('Positive Test Cases', () => {
+    test('should successfully check role for valid user email', async () => {
+      const response = await request(baseUrl)
+        .post(ENDPOINTS.ROLES)
+        .send({
+          email: validUserEmail
+        });
+
+      expect(response.status).toBe(STATUS.OK);
+      expect(response.body.message).toBe('User check successful');
+      expect(response.body.data).toBeDefined();
+      expect(response.body.data.roles).toBeDefined();
+    });
+  });
 });

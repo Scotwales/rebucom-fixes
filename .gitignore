@@ -1,0 +1,42 @@
+<<<<<<< HEAD
+node_modules/
+venv/
+inspectionProfiles/
+=======
+# Dependencies
+node_modules/
+package-lock.json
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Test outputs
+reports/
+coverage/
+*.log
+
+# Test data with sensitive information
+test-data/authData.json
+test-data/customerAuthData.json
+test-data/driverAuthData.json
+test-data/merchantAuthData.json
+test-data/merchantTeamAuthData.json
+test-data/customerSignupData.json
+utilities/CustomerAuthData.json
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Test reports
+jest_html_reporters.html
+>>>>>>> c4ed3dc406e36ff78676cef5bcbb66ae0a351d4c

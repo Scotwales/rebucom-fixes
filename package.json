@@ -1,0 +1,124 @@
+{
+<<<<<<< HEAD
+  "name": "rebucom",
+  "version": "1.0.0",
+  "scripts": {
+    "test": "jest auth/run-tests-in-order.test.js --runInBand",
+    "test:all": "npm run test:signup && npm run test:change-password",
+    "test:single": "jest --runInBand",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest auth/run-tests-in-order.test.js --coverage --runInBand",
+    "clean": "node -e \"const fs=require('fs'); ['reports','coverage'].forEach(d=>{try{fs.rmSync(d,{recursive:true,force:true})}catch(e){}})\""
+  },
+  "jest": {
+    "setupFiles": ["<rootDir>/jest.setup.js"],
+    "testMatch": [
+      "**/run-tests-in-order.test.js",
+      "**/*.test.js"
+    ],
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      "/auth/0[0-9]-.*\\.test\\.js$"
+    ],
+=======
+  "name": "rebucom-api-tests",
+  "version": "1.0.0",
+  "description": "Automated API tests for Rebucom backend authentication and user management",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest --runInBand",
+    "test:ordered": "jest auth/run-tests-in-order.test.js --runInBand",
+    "test:signup": "jest auth/01-signup-a-user --runInBand",
+    "test:login": "jest auth/02-login --runInBand",
+    "test:otp": "jest auth/*otp* --runInBand",
+    "test:password": "jest auth/*password* --runInBand",
+    "test:role": "jest auth/*role* --runInBand",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage --runInBand",
+    "test:debug": "node --inspect-brk node_modules/.bin/jest --runInBand",
+    "clean": "rm -rf reports coverage test-data/*AuthData.json utilities/CustomerAuthData.json jest_html_reporters.html"
+  },
+  "keywords": [
+    "api",
+    "testing",
+    "jest",
+    "supertest",
+    "rebucom"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "supertest": "^7.1.4",
+    "dotenv": "^17.2.3"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.28.4",
+    "@babel/preset-env": "^7.28.3",
+    "@faker-js/faker": "^10.1.0",
+    "babel-jest": "^29.7.0",
+    "jest": "^29.7.0",
+    "jest-html-reporters": "^3.1.7"
+  },
+  "jest": {
+    "setupFiles": [
+      "<rootDir>/jest.setup.js"
+    ],
+    "testMatch": [
+      "**/*.test.js"
+    ],
+    "testPathIgnorePatterns": [
+      "/node_modules/"
+    ],
+    "testTimeout": 30000,
+    "maxWorkers": 1,
+>>>>>>> c4ed3dc406e36ff78676cef5bcbb66ae0a351d4c
+    "reporters": [
+      "default",
+      [
+        "jest-html-reporters",
+        {
+          "publicPath": "./reports",
+          "filename": "test-report.html",
+          "expand": true,
+<<<<<<< HEAD
+          "pageTitle": "API Test Report - Ordered Execution",
+          "hideIcon": false,
+          "openReport": true
+=======
+          "pageTitle": "Rebucom API Test Report",
+          "hideIcon": false
+>>>>>>> c4ed3dc406e36ff78676cef5bcbb66ae0a351d4c
+        }
+      ]
+    ],
+    "coverageDirectory": "./reports/coverage",
+<<<<<<< HEAD
+    "coverageReporters": ["text", "lcov", "html"],
+    "collectCoverageFrom": [
+      "**/*.js",
+      "!**/*.test.js",
+      "!**/node_modules/**",
+      "!**/reports/**",
+      "!**/coverage/**"
+=======
+    "coverageReporters": [
+      "text",
+      "lcov",
+      "html"
+>>>>>>> c4ed3dc406e36ff78676cef5bcbb66ae0a351d4c
+    ],
+    "transform": {
+      "^.+\\.js$": "babel-jest"
+    },
+    "transformIgnorePatterns": [
+      "/node_modules/(?!@faker-js/faker)"
+<<<<<<< HEAD
+    ],
+    "moduleFileExtensions": ["js", "json", "node"]
+  }
+}
+=======
+    ]
+  }
+}
+>>>>>>> c4ed3dc406e36ff78676cef5bcbb66ae0a351d4c

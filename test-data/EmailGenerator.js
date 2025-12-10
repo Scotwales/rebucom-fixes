@@ -15,10 +15,13 @@ class EmailGenerator {
 
   static getRandomEmail(baseName) {
     const timestamp = Date.now();
-    const random = Math.floor(Math.random() * 10000);
+    // ✅ FIX: Use much larger random number to prevent collisions
+    const random = Math.floor(Math.random() * 1000000); // 1 million possibilities
+    // Add microsecond precision using performance.now()
+    const microseconds = Math.floor((performance.now() % 1) * 1000000);
     // Ensure baseName is clean
     const cleanName = baseName.toLowerCase().replace(/[^a-z0-9]/g, '');
-    return `${cleanName}${timestamp}${random}@yopmail.com`;
+    return `${cleanName}${timestamp}${random}${microseconds}@yopmail.com`;
   }
 }
 
